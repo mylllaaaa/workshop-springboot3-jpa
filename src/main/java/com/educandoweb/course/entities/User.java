@@ -3,10 +3,22 @@ package com.educandoweb.course.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "tb_user") //pra fazer uma ligação com o user (tabela) no BdD; a palavra "user" já é usada de outra forma, então pra n ocorrer interferências usa-se outro nome
 public class User implements Serializable { //para trans formar a classe em bytes - pra que ela possa navegar na rede ou ser transformada em arquivo
 
 	private static final long serialVersionUID = 1L;
-	private Long id;
+	
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY) //como é uma chave numérica ela vai ser autoimplementável no BdD - pra fazer isso tem que usar essa anotação
+	private Long id; //pra dizer que id é a chave primária da tabela do BdD
+	
 	private String name;
 	private String email;
 	private String phone;
