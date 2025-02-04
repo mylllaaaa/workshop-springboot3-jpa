@@ -31,4 +31,16 @@ public class UserService {
 	public void delete(Long id) {
 		userRep.deleteById(id);
 	}
+	
+	public User update(Long id, User obj) {
+		User entity = userRep.getReferenceById(id); //Esse método retorna uma referência à entidade com o ID fornecido, mas não busca os dados do banco de dados imediatamente. Em vez disso, ele cria um proxy (um objeto "falso") que representa a entidade.
+		updateData(entity, obj);
+		return userRep.save(entity);
+	}
+	
+	public void updateData(User entity, User obj) {
+		entity.setName(obj.getName());
+		entity.setEmail(obj.getEmail());
+		entity.setPhone(obj.getPhone()); //atualizda só os dados pessoais
+	}
 }
