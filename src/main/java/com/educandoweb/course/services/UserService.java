@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.educandoweb.course.entities.User;
 import com.educandoweb.course.repositories.UserRepository;
+import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 
 @Service    //@Component //registra a classe como um componento do Spring - registra essa classe automaticamente com o @Autowired
 public class UserService {
@@ -21,7 +22,7 @@ public class UserService {
 	
 	public User findById(Long id) {
 		Optional<User> obj = userRep.findById(id);
-		return obj.get(); //retorna o obj User que estiver no Optional
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id)); //retorna o obj User que estiver no Optional
 	}
 	
 	public User insert(User obj) {
