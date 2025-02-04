@@ -13,6 +13,8 @@ import com.educandoweb.course.repositories.UserRepository;
 import com.educandoweb.course.services.exceptions.DatabaseException;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service    //@Component //registra a classe como um componento do Spring - registra essa classe automaticamente com o @Autowired
 public class UserService {
 
@@ -45,9 +47,14 @@ public class UserService {
 	}
 	
 	public User update(Long id, User obj) {
-		User entity = userRep.getReferenceById(id); //Esse método retorna uma referência à entidade com o ID fornecido, mas não busca os dados do banco de dados imediatamente. Em vez disso, ele cria um proxy (um objeto "falso") que representa a entidade.
-		updateData(entity, obj);
-		return userRep.save(entity);
+		try {
+			User entity = userRep.getReferenceById(id); //Esse método retorna uma referência à entidade com o ID fornecido, mas não busca os dados do banco de dados imediatamente. Em vez disso, ele cria um proxy (um objeto "falso") que representa a entidade.
+			updateData(entity, obj);
+			return userRep.save(entity);
+		}
+		catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 	
 	public void updateData(User entity, User obj) {
