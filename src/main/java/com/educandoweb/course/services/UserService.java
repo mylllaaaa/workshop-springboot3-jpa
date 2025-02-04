@@ -23,4 +23,8 @@ public class UserService {
 		Optional<User> obj = userRep.findById(id);
 		return obj.get(); //retorna o obj User que estiver no Optional
 	}
+	
+	public User insert(User obj) {
+		return userRep.save(obj);
+	}
 }
